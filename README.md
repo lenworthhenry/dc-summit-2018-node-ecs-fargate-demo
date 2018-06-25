@@ -16,7 +16,7 @@ into Amazon Elastic Container Registry (Amazon ECR).
 This stack deploys the service onto [AWSFargate][fargate]. AWS Fargate allows 
 you to run containers without managing clusters or services. 
 
-[![](images/architecture.png)][architecture]
+![](images/architecture.png)][architecture]
 
 ## Running the example
 
@@ -39,6 +39,8 @@ directory, which contains the code for the Amazon ECS sample app.
 #### 2. Create the CloudFormation stack
 
 [us-east-1]: https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/create/review?stackName=CICD-Demo&templateURL=https://s3.amazonaws.com/awshenry.com/cf-template.yml
+
+![](images/infrastructure.png)][infrastructure]
 
 This reference architecture can only be deployed to Regions which have all
 necessary services available. See the [Region
