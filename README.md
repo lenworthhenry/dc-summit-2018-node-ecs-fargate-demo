@@ -38,3 +38,4 @@ directory, which contains the code for the Amazon ECS sample app.
 
 #### 2. Create the CloudFormation stack
 
+[us-east-1]: https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/create/review?stackName=ECS-ContinuousDeployment&templateURL=https://s3.amazonaws.com/awshenry.com/cf-template.yml
