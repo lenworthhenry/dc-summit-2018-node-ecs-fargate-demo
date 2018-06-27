@@ -22,7 +22,7 @@ you to run containers without managing clusters or services.
 
 #### 1. Fork the GitHub repository
 
-[Fork](https://help.github.com/articles/fork-a-repo/) the [Node ECS CICD Demo App](https://github.com/dc-summit-2018-node-ecs-fargate-demo) GitHub repository into
+[Fork](https://help.github.com/articles/fork-a-repo/) the [Node ECS CICD Demo App](https://github.com/lenworthhenry/dc-summit-2018-node-ecs-fargate-demo) GitHub repository into
 your GitHub account.
 
 From your terminal application, execute the following command (make sure to
