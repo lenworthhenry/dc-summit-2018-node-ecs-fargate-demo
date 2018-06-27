@@ -1,0 +1,8 @@
+extends layout
+
+block content
+    h1= title
+     a(href="mailto:#{user.email}")= user.username
+    p 
+     a(href="userlist")= 'All Users'
+    

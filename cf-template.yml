@@ -8,9 +8,6 @@ Resources:
     Type: 'AWS::ECS::Cluster'
     Properties:
       ClusterName: !Ref 'AWS::StackName'
-    Metadata:
-      'AWS::CloudFormation::Designer':
-        id: fc4a7c84-f479-4278-acd6-a4d599874f25
   UsersDynamoDbTable:
     Type: 'AWS::DynamoDB::Table'
     Properties:
@@ -24,9 +21,6 @@ Resources:
         ReadCapacityUnits: '5'
         WriteCapacityUnits: '5'
       TableName: Users
-    Metadata:
-      'AWS::CloudFormation::Designer':
-        id: fcb57080-930d-4ef1-be09-777a97d59f44
   SecurityGroup:
     Type: "AWS::EC2::SecurityGroup"
     Properties:
@@ -37,6 +31,11 @@ Resources:
           FromPort: 80
           ToPort: 80
       VpcId: !Ref VPC
+  CodeCommitRepo:
+    Type: AWS::CodeCommit::Repository
+    Properties:
+      RepositoryName: !Ref AWS::StackName
+      RepositoryDescription: Code Commit Repository for ${AWS::StackName} to demonstrate CICD For ECS Fargate
   LoadBalancer:
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
     Properties:
@@ -88,23 +87,14 @@ Resources:
     Type: 'AWS::EC2::VPC'
     Properties: 
       CidrBlock: 10.215.0.0/16
-    Metadata:
-      'AWS::CloudFormation::Designer':
-        id: 4fe73d21-bcfb-4681-a732-34bb8dac0637
   InternetGateway:
     Type: 'AWS::EC2::InternetGateway'
     Properties: {}
-    Metadata:
-      'AWS::CloudFormation::Designer':
-        id: 8f9bba37-eb9b-4490-b081-bde12a1f774b
   InternetGatewayAttachment:
     Type: 'AWS::EC2::VPCGatewayAttachment'
     Properties:
       InternetGatewayId: !Ref InternetGateway
       VpcId: !Ref VPC
-    Metadata:
-      'AWS::CloudFormation::Designer':
-        id: 599e02a2-0ebc-4690-a54e-2d4675985c82
   Subnet1:
     Type: 'AWS::EC2::Subnet'
     Properties:
@@ -228,6 +218,8 @@ Resources:
             Principal:
               Service: codepipeline.amazonaws.com
             Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AWSCodeCommitPowerUser      
       Policies:
         - PolicyName: root
           PolicyDocument:
@@ -253,7 +245,6 @@ Resources:
                   - codebuild:StartBuild
                   - codebuild:BatchGetBuilds
                   - iam:PassRole
-
   ArtifactBucket:
     Type: AWS::S3::Bucket
     DeletionPolicy: Retain
@@ -296,6 +287,7 @@ Resources:
 
   Pipeline:
     Type: AWS::CodePipeline::Pipeline
+    DependsOn: CodeCommitRepo
     Properties:
       RoleArn: !GetAtt CodePipelineServiceRole.Arn
       ArtifactStore:
@@ -312,7 +304,7 @@ Resources:
                 Provider: CodeCommit
               Configuration:
                 BranchName: "master"
-                RepositoryName: !Ref Repository
+                RepositoryName: !GetAtt CodeCommitRepo.Name
               OutputArtifacts:
                 - Name: App
               RunOrder: 1
@@ -412,3 +404,7 @@ Outputs:
     Value: !Sub 'http://${LoadBalancer.DNSName}'
   VpcId:
     Value: !Ref VPC
+  CodeCommitRepo:
+    Value: !Ref CodeCommitRepo
+  PipelineUrl:
+    Value: !Sub https://console.aws.amazon.com/codepipeline/home?region=${AWS::Region}#/view/${Pipeline}

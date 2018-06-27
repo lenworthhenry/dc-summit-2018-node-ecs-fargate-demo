@@ -22,8 +22,7 @@ you to run containers without managing clusters or services.
 
 #### 1. Fork the GitHub repository
 
-[Fork](https://help.github.com/articles/fork-a-repo/) the [Amazon ECS sample
-app](https://github.com/awslabs/dc-summit-2018-node-ecs-fargate-demo) GitHub repository into
+[Fork](https://help.github.com/articles/fork-a-repo/) the [Node ECS CICD Demo App](https://github.com/awslabs/dc-summit-2018-node-ecs-fargate-demo) GitHub repository into
 your GitHub account.
 
 From your terminal application, execute the following command (make sure to
@@ -59,6 +58,14 @@ The CloudFormation stack provides the following output:
 - **TargetGroup**: TargetGroup for the ECS Fargate Service
 - **VpcId**: The VPC is created for hosting your Service
 - **CodeRepository**: The Code Commit Repository for hosting your code
+
+### Setting up CICD
+
+The template deploys all the AWS service components that you will need for your
+CICD project.  However, you will have to commit the demo application to the 
+Code Commit Repository to have a fully working CICD process.  That check in
+will trigger a Docker build as well as the push to ECS of the service based on
+the code you committed.
 
 ### Testing the example
 
