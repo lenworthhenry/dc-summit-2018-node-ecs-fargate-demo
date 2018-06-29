@@ -1,0 +1,24 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var tslib_1 = require("tslib");
+/**
+ * An exception thrown when an item was sought with a DynamoDB::GetItem
+ * request and not found. Includes the original request sent as
+ * `itemSought`.
+ */
+var ItemNotFoundException = /** @class */ (function (_super) {
+    tslib_1.__extends(ItemNotFoundException, _super);
+    function ItemNotFoundException(itemSought, message) {
+        if (message === void 0) { message = defaultErrorMessage(itemSought); }
+        var _this = _super.call(this, message) || this;
+        _this.itemSought = itemSought;
+        _this.name = 'ItemNotFoundException';
+        return _this;
+    }
+    return ItemNotFoundException;
+}(Error));
+exports.ItemNotFoundException = ItemNotFoundException;
+function defaultErrorMessage(itemSought) {
+    return "No item with the key " + JSON.stringify(itemSought.Key) + " found in the " + itemSought.TableName + " table.";
+}
+//# sourceMappingURL=ItemNotFoundException.js.map

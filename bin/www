@@ -1,5 +1,6 @@
 #!/usr/bin/env node
-
+var AWS = require('aws-sdk');
+AWS.config.loadFromPath('./config.json');
 
 /**
  * Module dependencies.

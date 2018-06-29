@@ -1,0 +1,6 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.VERSION = '0.4.0';
+exports.MAX_WRITE_BATCH_SIZE = 25;
+exports.MAX_READ_BATCH_SIZE = 100;
+//# sourceMappingURL=constants.js.map

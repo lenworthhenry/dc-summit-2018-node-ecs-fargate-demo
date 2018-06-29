@@ -35,7 +35,7 @@ Resources:
     Type: AWS::CodeCommit::Repository
     Properties:
       RepositoryName: !Ref AWS::StackName
-      RepositoryDescription: Code Commit Repository for ${AWS::StackName} to demonstrate CICD For ECS Fargate
+      RepositoryDescription: Code Commit Repository to demonstrate CICD For ECS Fargate
   LoadBalancer:
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
     Properties:
@@ -139,6 +139,9 @@ Resources:
             Effect: Allow
             Principal:
               Service: ecs-tasks.amazonaws.com
+          - Resource: !GetAtt UsersDynamoDbTable.Arn
+            Effect: Allow
+            Action: dynamodb:*
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy
   LogGroup:
@@ -147,6 +150,7 @@ Resources:
       LogGroupName: !Sub /ecs/${AWS::StackName}
   FargateService:
     Type: AWS::ECS::Service
+    DependsOn: [LoadBalancerListener, TargetGroup]    
     Properties:
       Cluster: !Ref Cluster
       DesiredCount: 0
@@ -245,6 +249,7 @@ Resources:
                   - codebuild:StartBuild
                   - codebuild:BatchGetBuilds
                   - iam:PassRole
+                  - codecommit:UploadArchive
   ArtifactBucket:
     Type: AWS::S3::Bucket
     DeletionPolicy: Retain
@@ -270,7 +275,7 @@ Resources:
             post_build:
               commands:
                 - docker push "$IMAGE_URI"
-                - printf '[{"name":"simple-app","imageUri":"%s"}]' "$IMAGE_URI" > images.json
+                - printf '[{"name":"ci-cd-demo","imageUri":"%s"}]' "$IMAGE_URI" > images.json
           artifacts:
             files: images.json
       Environment:
@@ -378,13 +383,6 @@ Resources:
               awslogs-region: !Ref AWS::Region
               awslogs-group: !Ref LogGroup
               awslogs-stream-prefix: !Ref AWS::StackName
-        - Name: busybox
-          Image: busybox
-          EntryPoint:
-            - sh
-            - -c
-          Essential: true
-          Memory: 256
           HealthCheck:
             Retries: 3
             Command: 
@@ -405,6 +403,6 @@ Outputs:
   VpcId:
     Value: !Ref VPC
   CodeCommitRepo:
-    Value: !Ref CodeCommitRepo
+    Value: !GetAtt CodeCommitRepo.CloneUrlHttp
   PipelineUrl:
     Value: !Sub https://console.aws.amazon.com/codepipeline/home?region=${AWS::Region}#/view/${Pipeline}

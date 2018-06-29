@@ -1,0 +1,1 @@
+{"version":3,"file":"embed.js","sourceRoot":"","sources":["../src/embed.ts"],"names":[],"mappings":";;AAAA,yCAA2C;AAW3C,eACI,mBAAgD,EAChD,EAA6D;QAA7D,4BAA6D,EAA5D,gCAAa,EAAE,oCAAe;IAE/B,OAAO;QACH,IAAI,EAAE,UAAU;QAChB,OAAO,EAAG,mBAAmB,CAAC,SAAiB,CAAC,0BAAc,CAAC,IAAI,EAAE;QACrE,aAAa,eAAA;QACb,eAAe,iBAAA;QACf,gBAAgB,EAAE,mBAAmB;KACxC,CAAC;AACN,CAAC;AAXD,sBAWC"}

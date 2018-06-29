@@ -61,6 +61,16 @@ The CloudFormation stack provides the following output:
 
 ### Setting up CICD
 
+Follow instructions here for configuring Cloud9 with CodeCommit 
+(https://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-ide-c9.html)
+You can move git to point to your current folder by overwriting the .git 
+directory:
+git clone https://myrepo.com/git.git temp
+mv temp/.git code/.git
+rm -rf temp
+
+Configure for NodeJS here:  https://docs.aws.amazon.com/cloud9/latest/user-guide/sample-nodejs.html
+
 The template deploys all the AWS service components that you will need for your
 CICD project.  However, you will have to commit the demo application to the 
 Code Commit Repository to have a fully working CICD process.  That check in
@@ -70,9 +80,17 @@ the code you committed.
 ### Testing the example
 
 To test continuous deployment, make a change to views/index.pug (or any other pug or js file) in the
-repository and push it to CodePipeline. CodePipeline detects
+repository and push it to CodeCommit. CodePipeline detects
 the change, builds the new application, and deploys it to your cluster
-automatically. After the pipeline finishes deploying the revision, reload the
+automatically. 
+
+Once the ECS deployment has completed, you will need to change the # of running 
+tasks to at least one.  The service that is deployed by the template has 0
+running tasks as it is a placeholder till you have commited to your repository.
+
+![](images/update-service.png)][update service]
+
+After the pipeline finishes deploying the revision, reload the
 page to see the changes made.
 
 ### Cleaning up the example resources

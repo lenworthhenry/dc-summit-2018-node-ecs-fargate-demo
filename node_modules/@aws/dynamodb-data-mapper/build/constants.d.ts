@@ -1,0 +1,10 @@
+export declare const VERSION = "0.4.0";
+export declare const MAX_WRITE_BATCH_SIZE = 25;
+export declare const MAX_READ_BATCH_SIZE = 100;
+export declare type OnMissingStrategy = 'remove' | 'skip';
+export declare type ReadConsistency = 'eventual' | 'strong';
+export interface StringToAnyObjectMap {
+    [key: string]: any;
+}
+export declare type SyncOrAsyncIterable<T> = Iterable<T> | AsyncIterable<T>;
+export declare type WriteType = 'put' | 'delete';

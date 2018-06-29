@@ -1,0 +1,15 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var protocols_1 = require("./protocols");
+function embed(documentConstructor, _a) {
+    var _b = _a === void 0 ? {} : _a, attributeName = _b.attributeName, defaultProvider = _b.defaultProvider;
+    return {
+        type: 'Document',
+        members: documentConstructor.prototype[protocols_1.DynamoDbSchema] || {},
+        attributeName: attributeName,
+        defaultProvider: defaultProvider,
+        valueConstructor: documentConstructor
+    };
+}
+exports.embed = embed;
+//# sourceMappingURL=embed.js.map
